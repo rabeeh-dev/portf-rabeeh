@@ -1,0 +1,3 @@
+uploads/projects/*
+!uploads/projects/.gitkeep
+.env

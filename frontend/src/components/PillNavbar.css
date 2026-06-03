@@ -1,0 +1,231 @@
+/* Shared floating pill navbar (portfolio + admin) */
+
+.pill-nav-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 18px 24px;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+.pill-nav-wrap > * {
+  pointer-events: auto;
+}
+
+.pill-nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px 20px;
+  padding: 10px 12px 10px 14px;
+  border-radius: 100px;
+  background: rgba(4, 8, 20, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-nav);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.pill-nav-logo {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.pill-nav-logo-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 30% 30%, rgba(37, 99, 235, 0.3), rgba(10, 14, 24, 0.95));
+  border: 1px solid var(--border-nav);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.35);
+}
+
+.pill-nav-logo-letter {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.pill-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pill-nav-links button,
+.pill-nav-links a {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 4px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.pill-nav-links button:hover,
+.pill-nav-links a:hover {
+  color: #fff;
+}
+
+.pill-nav-links button.active,
+.pill-nav-links a.active {
+  color: var(--accent);
+}
+
+.pill-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: end;
+}
+
+.pill-nav-cta {
+  font-size: 0.82rem;
+  padding: 10px 18px;
+  white-space: nowrap;
+}
+
+.pill-nav-wrap:not(.admin-pill-nav-wrap) .pill-nav-cta {
+  background: #fff;
+  color: var(--accent);
+  box-shadow: none;
+}
+
+.pill-nav-wrap:not(.admin-pill-nav-wrap) .pill-nav-cta:hover {
+  background: #f0f4ff;
+  color: var(--accent-hover);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.pill-nav-ghost {
+  font-size: 0.82rem;
+  padding: 10px 16px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.pill-nav-ghost:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.pill-nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  justify-self: end;
+}
+
+.pill-nav-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.pill-nav-mobile {
+  display: none;
+  max-width: 1100px;
+  margin: 10px auto 0;
+  padding: 16px 20px;
+  border-radius: 20px;
+  background: rgba(4, 8, 20, 0.92);
+  border: 1px solid var(--border-nav);
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pill-nav-mobile.open {
+  display: flex;
+}
+
+.pill-nav-mobile button,
+.pill-nav-mobile a {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: left;
+  padding: 10px 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.pill-nav-mobile .btn-primary {
+  margin-top: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+.pill-nav-wrap:not(.admin-pill-nav-wrap) .pill-nav-mobile .btn-primary {
+  background: #fff;
+  color: var(--accent);
+  box-shadow: none;
+}
+
+@media (max-width: 900px) {
+  .pill-nav {
+    grid-template-columns: auto 1fr auto;
+    padding: 8px 10px 8px 12px;
+  }
+
+  .pill-nav-links {
+    display: none;
+  }
+
+  .pill-nav-wrap:not(.admin-pill-nav-wrap) .pill-nav-actions .pill-nav-cta {
+    display: none;
+  }
+
+  .pill-nav--admin .pill-nav-actions .pill-nav-cta,
+  .pill-nav--admin .pill-nav-actions .admin-logout-btn {
+    display: none;
+  }
+
+  .pill-nav-toggle {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .pill-nav-wrap {
+    padding: 12px 16px;
+  }
+}
