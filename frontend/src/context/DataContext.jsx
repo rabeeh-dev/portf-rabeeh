@@ -19,6 +19,8 @@ const DEFAULT_SETTINGS = {
     'Founded by a collective of designers and engineers, rabeeh exists to bridge the gap between imagination and implementation. We believe technology should be as beautiful as it is functional.',
   aboutTags: ['UI/UX DESIGN', 'BRANDING', 'WEBFLOW', 'NEXT.JS', 'TAILWIND CSS', 'FIGMA'],
   aboutImage: '',
+  instagramUrl: 'https://instagram.com',
+  linkedinUrl: 'https://linkedin.com',
 };
 
 export function DataProvider({ children }) {

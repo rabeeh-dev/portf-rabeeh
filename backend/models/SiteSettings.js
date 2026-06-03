@@ -46,6 +46,16 @@ const siteSettingsSchema = new mongoose.Schema(
       default: '',
       trim: true,
     },
+    instagramUrl: {
+      type: String,
+      default: 'https://instagram.com',
+      trim: true,
+    },
+    linkedinUrl: {
+      type: String,
+      default: 'https://linkedin.com',
+      trim: true,
+    },
   },
   { timestamps: true }
 );

@@ -31,6 +31,8 @@ const updateSettings = async (req, res) => {
       aboutBio,
       aboutTags,
       aboutImage,
+      instagramUrl,
+      linkedinUrl,
     } = req.body;
 
     if (bookCallUrl !== undefined) doc.bookCallUrl = bookCallUrl.trim();
@@ -41,6 +43,8 @@ const updateSettings = async (req, res) => {
     if (aboutHeadingAccent !== undefined) doc.aboutHeadingAccent = aboutHeadingAccent.trim();
     if (aboutBio !== undefined) doc.aboutBio = aboutBio.trim();
     if (aboutImage !== undefined) doc.aboutImage = String(aboutImage).trim();
+    if (instagramUrl !== undefined) doc.instagramUrl = instagramUrl.trim();
+    if (linkedinUrl !== undefined) doc.linkedinUrl = linkedinUrl.trim();
     if (aboutTags !== undefined) {
       doc.aboutTags = Array.isArray(aboutTags)
         ? aboutTags.map((t) => String(t).trim()).filter(Boolean)

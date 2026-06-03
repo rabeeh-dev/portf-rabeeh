@@ -406,6 +406,7 @@ function Testimonials() {
 }
 
 function Contact() {
+  const { settings } = useData();
   const [ref, vis] = useInView();
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [sent, setSent] = useState(false);
@@ -491,9 +492,8 @@ function Contact() {
             </button>
           </form>
           <div className="contact-social-footer">
-            <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer">Twitter</a>
+            <a href={settings?.instagramUrl || 'https://instagram.com'} target="_blank" rel="noreferrer">Instagram</a>
+            <a href={settings?.linkedinUrl || 'https://linkedin.com'} target="_blank" rel="noreferrer">LinkedIn</a>
           </div>
         </div>
       </div>

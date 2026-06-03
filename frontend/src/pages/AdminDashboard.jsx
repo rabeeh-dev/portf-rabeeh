@@ -146,6 +146,8 @@ function ContentManager() {
     aboutBio: '',
     aboutTags: '',
     aboutImage: '',
+    instagramUrl: '',
+    linkedinUrl: '',
   });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -173,6 +175,8 @@ function ContentManager() {
       aboutBio: settings.aboutBio || '',
       aboutTags: (settings.aboutTags || []).join(', '),
       aboutImage: settings.aboutImage || '',
+      instagramUrl: settings.instagramUrl || '',
+      linkedinUrl: settings.linkedinUrl || '',
     });
   }, [settings]);
 
@@ -190,6 +194,8 @@ function ContentManager() {
         aboutBio: form.aboutBio,
         aboutTags: form.aboutTags.split(',').map((t) => t.trim()).filter(Boolean),
         aboutImage: form.aboutImage,
+        instagramUrl: form.instagramUrl,
+        linkedinUrl: form.linkedinUrl,
       });
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
@@ -274,6 +280,15 @@ function ContentManager() {
           {field('aboutHeadingAccent', 'Heading accent (highlighted)', 'input', 'New Frontier')}
           {field('aboutBio', 'Paragraph', 'textarea', 'Your story…')}
           {field('aboutTags', 'Tags (comma separated)', 'input', 'UI/UX DESIGN, BRANDING, FIGMA')}
+        </div>
+
+        <div className="card content-block">
+          <h3>Social Profiles</h3>
+          <p className="content-hint">
+            URLs for the social profile links shown in the contact section of your portfolio.
+          </p>
+          {field('instagramUrl', 'Instagram Link', 'input', 'https://instagram.com/username')}
+          {field('linkedinUrl', 'LinkedIn Link', 'input', 'https://linkedin.com/in/username')}
         </div>
       </div>
     </div>
