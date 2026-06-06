@@ -81,7 +81,7 @@ const submitContact = async (req, res) => {
     }
 
     const contact = await Contact.create({ name, email, phone, message });
-    req.app.get('io').emit('contact:created', { contact });
+
 
     // Fire-and-forget email notification
     sendNotificationEmail(contact);
@@ -121,7 +121,7 @@ const markRead = async (req, res) => {
       return res.status(404).json({ message: 'Contact not found' });
     }
 
-    req.app.get('io').emit('contact:updated', { contact });
+
     res.json(contact);
   } catch (error) {
     console.error('Mark read error:', error.message);
@@ -140,7 +140,7 @@ const deleteContact = async (req, res) => {
       return res.status(404).json({ message: 'Contact not found' });
     }
 
-    req.app.get('io').emit('contact:deleted', { id: req.params.id });
+
     res.json({ message: 'Contact deleted' });
   } catch (error) {
     console.error('Delete contact error:', error.message);

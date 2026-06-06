@@ -24,7 +24,7 @@ const getProjects = async (req, res) => {
 const createProject = async (req, res) => {
   try {
     const project = await Project.create(sanitizeProjectBody(req.body));
-    req.app.get('io').emit('project:created', { project });
+
     res.status(201).json(project);
   } catch (error) {
     console.error('Create project error:', error.message);
@@ -46,7 +46,7 @@ const updateProject = async (req, res) => {
       return res.status(404).json({ message: 'Project not found' });
     }
 
-    req.app.get('io').emit('project:updated', { project });
+
     res.json(project);
   } catch (error) {
     console.error('Update project error:', error.message);
@@ -65,7 +65,7 @@ const deleteProject = async (req, res) => {
       return res.status(404).json({ message: 'Project not found' });
     }
 
-    req.app.get('io').emit('project:deleted', { id: req.params.id });
+
     res.json({ message: 'Project deleted' });
   } catch (error) {
     console.error('Delete project error:', error.message);
