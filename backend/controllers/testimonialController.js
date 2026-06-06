@@ -32,6 +32,7 @@ const getAllTestimonials = async (req, res) => {
 const createTestimonial = async (req, res) => {
   try {
     const testimonial = await Testimonial.create(req.body);
+    req.app.get('io').emit('testimonial:created', { testimonial });
     res.status(201).json(testimonial);
   } catch (error) {
     console.error('Create testimonial error:', error.message);
@@ -53,6 +54,7 @@ const updateTestimonial = async (req, res) => {
       return res.status(404).json({ message: 'Testimonial not found' });
     }
 
+    req.app.get('io').emit('testimonial:updated', { testimonial });
     res.json(testimonial);
   } catch (error) {
     console.error('Update testimonial error:', error.message);
@@ -71,6 +73,7 @@ const deleteTestimonial = async (req, res) => {
       return res.status(404).json({ message: 'Testimonial not found' });
     }
 
+    req.app.get('io').emit('testimonial:deleted', { id: req.params.id });
     res.json({ message: 'Testimonial deleted' });
   } catch (error) {
     console.error('Delete testimonial error:', error.message);

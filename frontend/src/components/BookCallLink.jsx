@@ -12,7 +12,9 @@ function isHashLink(url) {
 
 export default function BookCallLink({ settings, className, children, onNavigate }) {
   const url = settings?.bookCallUrl?.trim() || '#contact';
-  const label = children || settings?.bookCallLabel || 'Book a Free Call';
+  const label = children || settings?.bookCallLabel?.trim();
+
+  if (!label) return null;
 
   if (isExternalUrl(url)) {
     return (

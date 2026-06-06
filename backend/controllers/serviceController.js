@@ -19,6 +19,7 @@ const getServices = async (req, res) => {
 const createService = async (req, res) => {
   try {
     const service = await Service.create(req.body);
+    req.app.get('io').emit('service:created', { service });
     res.status(201).json(service);
   } catch (error) {
     console.error('Create service error:', error.message);
@@ -40,6 +41,7 @@ const updateService = async (req, res) => {
       return res.status(404).json({ message: 'Service not found' });
     }
 
+    req.app.get('io').emit('service:updated', { service });
     res.json(service);
   } catch (error) {
     console.error('Update service error:', error.message);
@@ -58,6 +60,7 @@ const deleteService = async (req, res) => {
       return res.status(404).json({ message: 'Service not found' });
     }
 
+    req.app.get('io').emit('service:deleted', { id: req.params.id });
     res.json({ message: 'Service deleted' });
   } catch (error) {
     console.error('Delete service error:', error.message);

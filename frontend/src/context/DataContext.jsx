@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import api from '../api/axios';
 import { useAuth } from './AuthContext';
+import { useSocket } from './SocketContext';
 
 const DataContext = createContext(null);
 
@@ -8,19 +9,17 @@ const normalize = (item) => ({ ...item, id: item._id || item.id });
 const normalizeList = (list) => list.map(normalize);
 
 const DEFAULT_SETTINGS = {
-  bookCallUrl: '#contact',
-  bookCallLabel: 'Book a Free Call',
-  heroHeading: 'Your story, positioned to attract real opportunities.',
-  heroSub:
-    'We help founders craft their category, tell impactful stories, and build digital experiences that drive growth.',
-  aboutHeading: 'Pioneering the',
-  aboutHeadingAccent: 'New Frontier',
-  aboutBio:
-    'Founded by a collective of designers and engineers, rabeeh exists to bridge the gap between imagination and implementation. We believe technology should be as beautiful as it is functional.',
-  aboutTags: ['UI/UX DESIGN', 'BRANDING', 'WEBFLOW', 'NEXT.JS', 'TAILWIND CSS', 'FIGMA'],
+  bookCallUrl: '',
+  bookCallLabel: '',
+  heroHeading: '',
+  heroSub: '',
+  aboutHeading: '',
+  aboutHeadingAccent: '',
+  aboutBio: '',
+  aboutTags: [],
   aboutImage: '',
-  instagramUrl: 'https://instagram.com',
-  linkedinUrl: 'https://linkedin.com',
+  instagramUrl: '',
+  linkedinUrl: '',
 };
 
 export function DataProvider({ children }) {
@@ -30,6 +29,7 @@ export function DataProvider({ children }) {
   const [testimonials, setTestimonials] = useState([]);
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [loading, setLoading] = useState(true);
+  const { socket } = useSocket();
 
   const fetchAll = useCallback(() => {
     setLoading(true);
@@ -53,6 +53,67 @@ export function DataProvider({ children }) {
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
+
+  // Real-time socket listeners
+  useEffect(() => {
+    if (!socket) return;
+
+    const onServiceCreated = ({ service }) =>
+      setServices((prev) => [...prev, normalize(service)]);
+    const onServiceUpdated = ({ service }) =>
+      setServices((prev) =>
+        prev.map((s) => (s.id === (service._id || service.id) ? normalize(service) : s))
+      );
+    const onServiceDeleted = ({ id }) =>
+      setServices((prev) => prev.filter((s) => s.id !== id));
+
+    const onProjectCreated = ({ project }) =>
+      setProjects((prev) => [...prev, normalize(project)]);
+    const onProjectUpdated = ({ project }) =>
+      setProjects((prev) =>
+        prev.map((p) => (p.id === (project._id || project.id) ? normalize(project) : p))
+      );
+    const onProjectDeleted = ({ id }) =>
+      setProjects((prev) => prev.filter((p) => p.id !== id));
+
+    const onTestimonialCreated = ({ testimonial }) =>
+      setTestimonials((prev) => [...prev, normalize(testimonial)]);
+    const onTestimonialUpdated = ({ testimonial }) =>
+      setTestimonials((prev) =>
+        prev.map((t) =>
+          t.id === (testimonial._id || testimonial.id) ? normalize(testimonial) : t
+        )
+      );
+    const onTestimonialDeleted = ({ id }) =>
+      setTestimonials((prev) => prev.filter((t) => t.id !== id));
+
+    const onSettingsUpdated = ({ settings: s }) =>
+      setSettings({ ...DEFAULT_SETTINGS, ...s, id: s._id || s.id });
+
+    socket.on('service:created', onServiceCreated);
+    socket.on('service:updated', onServiceUpdated);
+    socket.on('service:deleted', onServiceDeleted);
+    socket.on('project:created', onProjectCreated);
+    socket.on('project:updated', onProjectUpdated);
+    socket.on('project:deleted', onProjectDeleted);
+    socket.on('testimonial:created', onTestimonialCreated);
+    socket.on('testimonial:updated', onTestimonialUpdated);
+    socket.on('testimonial:deleted', onTestimonialDeleted);
+    socket.on('settings:updated', onSettingsUpdated);
+
+    return () => {
+      socket.off('service:created', onServiceCreated);
+      socket.off('service:updated', onServiceUpdated);
+      socket.off('service:deleted', onServiceDeleted);
+      socket.off('project:created', onProjectCreated);
+      socket.off('project:updated', onProjectUpdated);
+      socket.off('project:deleted', onProjectDeleted);
+      socket.off('testimonial:created', onTestimonialCreated);
+      socket.off('testimonial:updated', onTestimonialUpdated);
+      socket.off('testimonial:deleted', onTestimonialDeleted);
+      socket.off('settings:updated', onSettingsUpdated);
+    };
+  }, [socket]);
 
   const updateSettings = async (data) => {
     const res = await api.put('/settings', data);

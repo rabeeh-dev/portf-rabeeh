@@ -55,6 +55,7 @@ const updateSettings = async (req, res) => {
     }
 
     await doc.save();
+    req.app.get('io').emit('settings:updated', { settings: doc });
     res.json(doc);
   } catch (error) {
     console.error('Update settings error:', error.message);

@@ -4,42 +4,40 @@ const siteSettingsSchema = new mongoose.Schema(
   {
     bookCallUrl: {
       type: String,
-      default: '#contact',
+      default: '',
       trim: true,
     },
     bookCallLabel: {
       type: String,
-      default: 'Book a Free Call',
+      default: '',
       trim: true,
     },
     heroHeading: {
       type: String,
-      default: 'Your story, positioned to attract real opportunities.',
+      default: '',
       trim: true,
     },
     heroSub: {
       type: String,
-      default:
-        'We help founders craft their category, tell impactful stories, and build digital experiences that drive growth.',
+      default: '',
     },
     aboutHeading: {
       type: String,
-      default: 'Pioneering the',
+      default: '',
       trim: true,
     },
     aboutHeadingAccent: {
       type: String,
-      default: 'New Frontier',
+      default: '',
       trim: true,
     },
     aboutBio: {
       type: String,
-      default:
-        'Founded by a collective of designers and engineers, rabeeh exists to bridge the gap between imagination and implementation. We believe technology should be as beautiful as it is functional.',
+      default: '',
     },
     aboutTags: {
       type: [String],
-      default: ['UI/UX DESIGN', 'BRANDING', 'WEBFLOW', 'NEXT.JS', 'TAILWIND CSS', 'FIGMA'],
+      default: [],
     },
     aboutImage: {
       type: String,
@@ -48,12 +46,12 @@ const siteSettingsSchema = new mongoose.Schema(
     },
     instagramUrl: {
       type: String,
-      default: 'https://instagram.com',
+      default: '',
       trim: true,
     },
     linkedinUrl: {
       type: String,
-      default: 'https://linkedin.com',
+      default: '',
       trim: true,
     },
   },

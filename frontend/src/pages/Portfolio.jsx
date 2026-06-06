@@ -120,15 +120,13 @@ function Hero({ settings, onNavigate }) {
           TRUSTED BY 100+ COMPANIES WORLDWIDE
         </div>
 
-        <h1 className="hero-title">
-          {settings?.heroHeading ||
-            'Your story, positioned to attract real opportunities.'}
-        </h1>
+        {settings?.heroHeading && (
+          <h1 className="hero-title">{settings.heroHeading}</h1>
+        )}
 
-        <p className="hero-sub">
-          {settings?.heroSub ||
-            'We help founders craft their category, tell impactful stories, and build digital experiences that drive growth.'}
-        </p>
+        {settings?.heroSub && (
+          <p className="hero-sub">{settings.heroSub}</p>
+        )}
 
         <div className="hero-ctas">
           <BookCallLink
@@ -148,11 +146,9 @@ function Hero({ settings, onNavigate }) {
 function About({ settings }) {
   const [ref, vis] = useInView();
   const [imgError, setImgError] = useState(false);
-  const tags = settings?.aboutTags?.length
-    ? settings.aboutTags
-    : ['UI/UX DESIGN', 'BRANDING', 'WEBFLOW', 'NEXT.JS', 'TAILWIND CSS', 'FIGMA'];
+  const tags = settings?.aboutTags || [];
   const customImage = settings?.aboutImage?.trim();
-  const portraitSrc = customImage ? mediaUrl(customImage) : '/profile_portrait.png';
+  const portraitSrc = customImage ? mediaUrl(customImage) : '';
 
   useEffect(() => {
     setImgError(false);
@@ -161,37 +157,44 @@ function About({ settings }) {
   return (
     <section id="about" className={`about-section ${vis ? 'in-view' : ''}`} ref={ref}>
       <div className="container about-grid">
-        <div className="about-img-wrap">
-          <div className="about-img-frame">
-            {!imgError && (
-              <img
-                key={portraitSrc}
-                src={portraitSrc}
-                alt="Founder portrait"
-                className="about-portrait"
-                onError={() => setImgError(true)}
-              />
-            )}
-            <div className={`about-portrait-fallback ${imgError ? 'visible' : ''}`} aria-hidden="true">
-              <span>R</span>
+        {portraitSrc && (
+          <div className="about-img-wrap">
+            <div className="about-img-frame">
+              {!imgError && (
+                <img
+                  key={portraitSrc}
+                  src={portraitSrc}
+                  alt="Founder portrait"
+                  className="about-portrait"
+                  onError={() => setImgError(true)}
+                />
+              )}
+              <div className={`about-portrait-fallback ${imgError ? 'visible' : ''}`} aria-hidden="true">
+                <span>R</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="about-text">
-          <h2 className="about-heading">
-            {settings?.aboutHeading || 'Pioneering the'}{' '}
-            <span className="accent">{settings?.aboutHeadingAccent || 'New Frontier'}</span>
-          </h2>
-          <p className="about-bio">
-            {settings?.aboutBio ||
-              'Founded by a collective of designers and engineers, rabeeh exists to bridge the gap between imagination and implementation.'}
-          </p>
-          <div className="about-tags">
-            {tags.map((t) => (
-              <span key={t} className="tag about-tag">{t}</span>
-            ))}
-          </div>
+          {(settings?.aboutHeading || settings?.aboutHeadingAccent) && (
+            <h2 className="about-heading">
+              {settings?.aboutHeading}{' '}
+              {settings?.aboutHeadingAccent && (
+                <span className="accent">{settings.aboutHeadingAccent}</span>
+              )}
+            </h2>
+          )}
+          {settings?.aboutBio && (
+            <p className="about-bio">{settings.aboutBio}</p>
+          )}
+          {tags.length > 0 && (
+            <div className="about-tags">
+              {tags.map((t) => (
+                <span key={t} className="tag about-tag">{t}</span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -492,8 +495,12 @@ function Contact() {
             </button>
           </form>
           <div className="contact-social-footer">
-            <a href={settings?.instagramUrl || 'https://instagram.com'} target="_blank" rel="noreferrer">Instagram</a>
-            <a href={settings?.linkedinUrl || 'https://linkedin.com'} target="_blank" rel="noreferrer">LinkedIn</a>
+            {settings?.instagramUrl && (
+              <a href={settings.instagramUrl} target="_blank" rel="noreferrer">Instagram</a>
+            )}
+            {settings?.linkedinUrl && (
+              <a href={settings.linkedinUrl} target="_blank" rel="noreferrer">LinkedIn</a>
+            )}
           </div>
         </div>
       </div>
