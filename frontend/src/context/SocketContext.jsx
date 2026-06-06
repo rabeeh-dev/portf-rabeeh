@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
 const SocketContext = createContext(null);
@@ -6,41 +6,38 @@ const SocketContext = createContext(null);
 const SOCKET_URL = import.meta.env.VITE_API_URL || '';
 
 export function SocketProvider({ children }) {
-  const socketRef = useRef(null);
-  const [isConnected, setIsConnected] = useState(false);
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socket = io(SOCKET_URL, {
-      transports: ['websocket', 'polling'],
+    const s = io(SOCKET_URL, {
+      transports: ['polling', 'websocket'],
       reconnection: true,
       reconnectionAttempts: Infinity,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
     });
 
-    socketRef.current = socket;
+    setSocket(s);
 
-    socket.on('connect', () => {
-      console.log('🔌 Socket connected:', socket.id);
-      setIsConnected(true);
+    s.on('connect', () => {
+      console.log('🔌 Socket connected:', s.id);
     });
 
-    socket.on('disconnect', (reason) => {
+    s.on('disconnect', (reason) => {
       console.log('🔌 Socket disconnected:', reason);
-      setIsConnected(false);
     });
 
-    socket.on('connect_error', (err) => {
+    s.on('connect_error', (err) => {
       console.warn('🔌 Socket connection error:', err.message);
     });
 
     return () => {
-      socket.disconnect();
+      s.disconnect();
     };
   }, []);
 
   return (
-    <SocketContext.Provider value={{ socket: socketRef.current, isConnected }}>
+    <SocketContext.Provider value={{ socket }}>
       {children}
     </SocketContext.Provider>
   );

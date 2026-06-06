@@ -21,7 +21,9 @@ const app = express();
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: ['http://localhost:3000'],
+    origin: (origin, callback) => {
+      callback(null, true);
+    },
     credentials: true,
   },
 });
