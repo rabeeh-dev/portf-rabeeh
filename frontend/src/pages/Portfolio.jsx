@@ -522,8 +522,10 @@ function Footer() {
 }
 
 export default function Portfolio() {
-  const { settings } = useData();
+  const { settings, loading } = useData();
   const navigateTo = (id) => scrollTo(id);
+
+
 
   return (
     <>

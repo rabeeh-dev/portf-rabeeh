@@ -54,6 +54,19 @@ export function DataProvider({ children }) {
     fetchAll();
   }, [fetchAll]);
 
+  useEffect(() => {
+    if (!loading) {
+      const loader = document.getElementById('global-loader');
+      if (loader) {
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+        setTimeout(() => {
+          if (loader.parentNode) loader.parentNode.removeChild(loader);
+        }, 600);
+      }
+    }
+  }, [loading]);
+
 
 
   const updateSettings = async (data) => {

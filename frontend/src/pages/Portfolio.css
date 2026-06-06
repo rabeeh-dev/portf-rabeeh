@@ -1,5 +1,28 @@
 /* ── rabeeh — portfolio layout ── */
 
+.portfolio-loading {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary, #040814);
+  z-index: 9999;
+}
+
+.portfolio-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--accent, #2b6fff);
+  border-radius: 50%;
+  animation: pf-spin 1s linear infinite;
+}
+
+@keyframes pf-spin {
+  to { transform: rotate(360deg); }
+}
+
 .portfolio-page {
   background: transparent;
   color: var(--text-primary);

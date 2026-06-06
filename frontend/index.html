@@ -8,6 +8,13 @@
     <meta name="description" content="Rabeeh personal portfolio website and admin management center. Built with React and Node.js." />
   </head>
   <body>
+    <div id="global-loader" style="position: fixed; inset: 0; background: #040814; z-index: 99999; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease-out, visibility 0.6s ease-out;">
+      <div style="width: 40px; height: 40px; border: 3px solid rgba(255, 255, 255, 0.1); border-top-color: #2b6fff; border-radius: 50%; animation: global-spin 1s linear infinite;"></div>
+      <style>
+        @keyframes global-spin { to { transform: rotate(360deg); } }
+        body { margin: 0; background: #040814; }
+      </style>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
